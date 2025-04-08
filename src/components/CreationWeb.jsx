@@ -3,9 +3,6 @@
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Code, Smartphone, Zap, ShieldCheck, ArrowRight } from "lucide-react"
-// Import your web creation illustration
-import webCreationImg from "../../public/web/1.jpg"
-import devicesMockup from "../../public/web/2.webp"
 import React from "react"
 
 const CreationWeb = () => {
@@ -70,11 +67,7 @@ const CreationWeb = () => {
             viewport={{ once: true }}
           >
             <div className="relative z-10">
-              <img
-                src={webCreationImg || "/placeholder.svg"}
-                alt="Création web responsive"
-                className="w-full h-auto rounded-lg shadow-xl"
-              />
+              <img src="/web/web1.jpg" alt="Création web responsive" className="w-full h-auto rounded-lg shadow-xl" />
             </div>
 
             {/* Device mockups */}
@@ -85,7 +78,7 @@ const CreationWeb = () => {
               transition={{ delay: 0.5, duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <img src={devicesMockup || "/placeholder.svg"} alt="Responsive devices" className="w-full h-auto" />
+              <img src="/web/web2.png" alt="Responsive devices" className="w-full h-auto" />
             </motion.div>
 
             {/* Animated decorative elements */}
@@ -172,4 +165,3 @@ const CreationWeb = () => {
 }
 
 export default CreationWeb
-

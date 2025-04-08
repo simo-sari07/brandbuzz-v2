@@ -1,7 +1,7 @@
-import React from "react"
-import { useState, useRef } from "react"
-import { motion, AnimatePresence, useInView } from "framer-motion"
-import { ArrowRight, X, ExternalLink, Maximize } from "lucide-react"
+"use client"
+
+import { useState } from "react"
+import { ArrowRight, X, ExternalLink } from "lucide-react"
 // Import your project images
 import site1 from "../../public/web/site1.jpg"
 import site2 from "../../public/web/site2.jpg"
@@ -15,13 +15,12 @@ import site9 from "../../public/web/site9.jpeg"
 import site10 from "../../public/web/site10.jpeg"
 import site11 from "../../public/web/site11.jpeg"
 import site12 from "../../public/web/site12.jpeg"
+import React from "react"
 
 const NosProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
 
   // Project data
   const projects = [
@@ -135,26 +134,6 @@ const NosProjects = () => {
     },
   ]
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }
-
   // Open project detail modal
   const openProject = (project) => {
     setSelectedProject(project)
@@ -192,19 +171,13 @@ const NosProjects = () => {
   }
 
   return (
-    <section ref={sectionRef} id="projects" className="py-24 relative bg-gradient-to-b from-white to-gray-50">
+    <section id="projects" className="py-24 relative bg-gradient-to-b from-white to-gray-50">
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-br from-purple-100 to-transparent rounded-full blur-3xl opacity-60 -z-10"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-blue-100 to-transparent rounded-full blur-3xl opacity-60 -z-10"></div>
 
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <div className="text-center mb-16">
           <span className="inline-block text-sm font-semibold py-1 px-3 rounded-full bg-purple-100 text-purple-700 mb-3">
             Portfolio
           </span>
@@ -215,35 +188,24 @@ const NosProjects = () => {
             Découvrez nos réalisations récentes et laissez-vous inspirer par notre expertise en création web et
             référencement SEO
           </p>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {projects.map((project) => (
-            <motion.div key={project.id} variants={itemVariants} whileHover={{ y: -10 }} className="group">
+            <div key={project.id} className="group">
               <div
-                className="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 h-full border border-gray-100 group-hover:border-purple-200 cursor-pointer"
+                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full border border-gray-100 hover:border-purple-200 cursor-pointer"
                 onClick={() => openProject(project)}
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-6">
                     <span className="text-white font-medium">{project.category}</span>
-                    <motion.div
-                      className="bg-white rounded-full p-2 text-purple-700"
-                      whileHover={{ scale: 1.1, rotate: 90 }}
-                    >
-                      <Maximize className="h-5 w-5" />
-                    </motion.div>
                   </div>
                 </div>
                 <div className="p-6">
@@ -261,195 +223,176 @@ const NosProjects = () => {
                   </div>
 
                   <div className="flex justify-end">
-                    <motion.button
-                      className="text-purple-600 font-medium text-sm flex items-center group-hover:text-purple-800 transition-colors"
-                      whileHover={{ x: 5 }}
-                    >
+                    <button className="text-purple-600 font-medium text-sm flex items-center hover:text-purple-800 transition-colors">
                       Voir détails <ArrowRight className="ml-1 h-4 w-4" />
-                    </motion.button>
+                    </button>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
+
+        {/* "View More" button */}
+        <div className="text-center mt-16">
+          <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-full transition-all flex items-center mx-auto shadow-lg shadow-purple-500/20">
+            Voir tous les projets <ArrowRight className="ml-2 h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {/* Project Detail Modal */}
-      <AnimatePresence>
-        {selectedProject && !isLightboxOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeProject}
+      {selectedProject && !isLightboxOpen && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={closeProject}
+        >
+          <div
+            className="bg-white rounded-2xl overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              className="bg-white rounded-2xl overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative">
-                <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-                  {selectedProject.fullImages.map((img, index) => (
-                    <div
-                      key={index}
-                      className="snap-center flex-shrink-0 w-full cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        openLightbox(selectedProject, index)
-                      }}
-                    >
-                      <img
-                        src={img || "/placeholder.svg"}
-                        alt={`${selectedProject.title} - Image ${index + 1}`}
-                        className="w-full h-[50vh] object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <button
-                  className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    closeProject()
-                  }}
-                >
-                  <X className="h-6 w-6" />
+            <div className="relative">
+              <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+                {selectedProject.fullImages.map((img, index) => (
+                  <div
+                    key={index}
+                    className="snap-center flex-shrink-0 w-full cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openLightbox(selectedProject, index)
+                    }}
+                  >
+                    <img
+                      src={img || "/placeholder.svg"}
+                      alt={`${selectedProject.title} - Image ${index + 1}`}
+                      className="w-full h-[50vh] object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+              <button
+                className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  closeProject()
+                }}
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                  {selectedProject.category}
+                </span>
+                <button className="flex items-center text-sm text-gray-600 hover:text-purple-700">
+                  <ExternalLink className="h-4 w-4 mr-1" /> Visiter le site
                 </button>
               </div>
 
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                    {selectedProject.category}
-                  </span>
-                  <motion.button
-                    className="flex items-center text-sm text-gray-600 hover:text-purple-700"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <ExternalLink className="h-4 w-4 mr-1" /> Visiter le site
-                  </motion.button>
-                </div>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">{selectedProject.title}</h2>
+              <p className="text-gray-600 mb-6">{selectedProject.description}</p>
 
-                <h2 className="text-3xl font-bold mb-4 text-gray-900">{selectedProject.title}</h2>
-                <p className="text-gray-600 mb-6">{selectedProject.description}</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 text-gray-900">Services fournis</h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-center text-gray-600">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        Conception et design sur mesure
-                      </li>
-                      <li className="flex items-center text-gray-600">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        Développement responsive
-                      </li>
-                      <li className="flex items-center text-gray-600">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        Optimisation SEO
-                      </li>
-                      <li className="flex items-center text-gray-600">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        Maintenance et support
-                      </li>
-                    </ul>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-900">Technologies utilisées</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tags.concat(["React", "Tailwind CSS", "Framer Motion"]).map((tag, i) => (
+                      <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                <div className="flex justify-end mt-6">
-                  <motion.button
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg shadow-lg shadow-purple-500/20 flex items-center"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Demander un projet similaire <ArrowRight className="ml-2 h-5 w-5" />
-                  </motion.button>
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-900">Services fournis</h3>
+                  <ul className="space-y-2">
+                    <li className="flex items-center text-gray-600">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                      Conception et design sur mesure
+                    </li>
+                    <li className="flex items-center text-gray-600">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                      Développement responsive
+                    </li>
+                    <li className="flex items-center text-gray-600">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                      Optimisation SEO
+                    </li>
+                    <li className="flex items-center text-gray-600">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                      Maintenance et support
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+              <div className="flex justify-end mt-6">
+                <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg shadow-lg shadow-purple-500/20 flex items-center">
+                  Demander un projet similaire <ArrowRight className="ml-2 h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox for full-screen image viewing */}
-      <AnimatePresence>
-        {isLightboxOpen && selectedProject && (
-          <motion.div
-            className="fixed inset-0 bg-black z-50 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      {isLightboxOpen && selectedProject && (
+        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center" onClick={closeLightbox}>
+          <button
+            className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
             onClick={closeLightbox}
           >
-            <button
-              className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
-              onClick={closeLightbox}
-            >
-              <X className="h-6 w-6" />
-            </button>
+            <X className="h-6 w-6" />
+          </button>
 
-            <motion.div
-              className="relative w-full h-full flex items-center justify-center"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25 }}
-            >
-              <img
-                src={selectedProject.fullImages[currentImageIndex] || "/placeholder.svg"}
-                alt={`${selectedProject.title} - Full view`}
-                className="max-w-full max-h-full object-contain"
-                onClick={(e) => e.stopPropagation()}
-              />
+          <div className="relative w-full h-full flex items-center justify-center">
+            <img
+              src={selectedProject.fullImages[currentImageIndex] || "/placeholder.svg"}
+              alt={`${selectedProject.title} - Full view`}
+              className="max-w-full max-h-full object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
 
-              {/* Navigation arrows */}
-              {selectedProject.fullImages.length > 1 && (
-                <>
-                  {currentImageIndex > 0 && (
-                    <motion.button
-                      className="absolute left-4 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigateImage(-1)
-                      }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <ArrowRight className="h-6 w-6 transform rotate-180" />
-                    </motion.button>
-                  )}
+            {/* Navigation arrows */}
+            {selectedProject.fullImages.length > 1 && (
+              <>
+                {currentImageIndex > 0 && (
+                  <button
+                    className="absolute left-4 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigateImage(-1)
+                    }}
+                  >
+                    <ArrowRight className="h-6 w-6 transform rotate-180" />
+                  </button>
+                )}
 
-                  {currentImageIndex < selectedProject.fullImages.length - 1 && (
-                    <motion.button
-                      className="absolute right-4 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigateImage(1)
-                      }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <ArrowRight className="h-6 w-6" />
-                    </motion.button>
-                  )}
-                </>
-              )}
+                {currentImageIndex < selectedProject.fullImages.length - 1 && (
+                  <button
+                    className="absolute right-4 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigateImage(1)
+                    }}
+                  >
+                    <ArrowRight className="h-6 w-6" />
+                  </button>
+                )}
+              </>
+            )}
 
-              {/* Image counter */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
-                {currentImageIndex + 1} / {selectedProject.fullImages.length}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {/* Image counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+              {currentImageIndex + 1} / {selectedProject.fullImages.length}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
