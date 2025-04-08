@@ -1,10 +1,8 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { useRef, useEffect, useState } from "react"
 import React from "react"
 
-function AnimatedSection({ children, delay = 0, threshold = 0.1 }) {
+function AnimatedSection({ children, delay = 0, threshold = 0.1, className }) {
   const ref = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -33,6 +31,7 @@ function AnimatedSection({ children, delay = 0, threshold = 0.1 }) {
   return (
     <motion.div
       ref={ref}
+      className={className}
       initial={{ opacity: 0, y: 30 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.8, delay }}
@@ -43,4 +42,3 @@ function AnimatedSection({ children, delay = 0, threshold = 0.1 }) {
 }
 
 export default AnimatedSection
-

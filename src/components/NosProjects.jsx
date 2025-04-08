@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { ArrowRight, X, ExternalLink, Maximize } from "lucide-react"
+import React from "react"
 // Import your project images
 import site1 from "../../public/web/site1.jpg"
 import site2 from "../../public/web/site2.jpg"
@@ -16,10 +17,9 @@ import site9 from "../../public/web/site9.jpeg"
 import site10 from "../../public/web/site10.jpeg"
 import site11 from "../../public/web/site11.jpeg"
 import site12 from "../../public/web/site12.jpeg"
-import React from "react"
+
 const NosProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null)
-  const [activeFilter, setActiveFilter] = useState("Tous")
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const sectionRef = useRef(null)
@@ -137,27 +137,6 @@ const NosProjects = () => {
     },
   ]
 
-  // Filters for projects
-  const filters = [
-    "Tous",
-    "Immobilier",
-    "Agriculture",
-    "Divertissement",
-    "Design",
-    "Technologie",
-    "Santé",
-    "E-commerce",
-    "Tourisme",
-    "Restauration",
-    "Sport",
-    "Art",
-    "Education",
-  ]
-
-  // Filter projects based on active filter
-  const filteredProjects =
-    activeFilter === "Tous" ? projects : projects.filter((project) => project.category === activeFilter)
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -240,25 +219,6 @@ const NosProjects = () => {
           </p>
         </motion.div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12 overflow-x-auto pb-4">
-          {filters.map((filter) => (
-            <motion.button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                activeFilter === filter
-                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 hover:border-purple-200"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {filter}
-            </motion.button>
-          ))}
-        </div>
-
         {/* Projects Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
@@ -266,7 +226,7 @@ const NosProjects = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {filteredProjects.map((project) => (
+          {projects.map((project) => (
             <motion.div key={project.id} variants={itemVariants} whileHover={{ y: -10 }} className="group">
               <div
                 className="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 h-full border border-gray-100 group-hover:border-purple-200 cursor-pointer"
@@ -314,23 +274,6 @@ const NosProjects = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* "View More" button */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <motion.button
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-full transition-all flex items-center mx-auto shadow-lg shadow-purple-500/20"
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(147, 51, 234, 0.3)" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Voir tous les projets <ArrowRight className="ml-2 h-5 w-5" />
-          </motion.button>
         </motion.div>
       </div>
 
@@ -399,17 +342,6 @@ const NosProjects = () => {
                 <p className="text-gray-600 mb-6">{selectedProject.description}</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3 text-gray-900">Technologies utilisées</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.tags.concat(["React", "Tailwind CSS", "Framer Motion"]).map((tag, i) => (
-                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
                   <div>
                     <h3 className="text-lg font-semibold mb-3 text-gray-900">Services fournis</h3>
                     <ul className="space-y-2">
@@ -525,4 +457,3 @@ const NosProjects = () => {
 }
 
 export default NosProjects
-
