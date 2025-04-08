@@ -1,9 +1,7 @@
-"use client"
-
+import React from "react"
 import { useState, useRef } from "react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { ArrowRight, X, ExternalLink, Maximize } from "lucide-react"
-import React from "react"
 // Import your project images
 import site1 from "../../public/web/site1.jpg"
 import site2 from "../../public/web/site2.jpg"
