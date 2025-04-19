@@ -20,7 +20,7 @@ function VideoShowcase() {
       category: "Music Video",
       description:
         "A cinematic urban exploration featuring architecturall elements and city rhythms. This piece combines dynamic camera movements with precise editing to create a compelling visual narrative.",
-      src: "https://drive.google.com/file/d/1xNA8X-AmMDt04UWxvDpGy50DXoFtGcUK/view?usp=drive_linkv",
+      src: "https://res.cloudinary.com/da63nggkh/video/upload/v1745088005/I_Believe_to_My_Soul_Remastered_szdd5t.mp4",
       thumbnail: "/videos/vd1.mov",
       duration: "2:45",
       year: "2023",
