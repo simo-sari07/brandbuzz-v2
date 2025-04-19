@@ -2,12 +2,14 @@
 
 import { useRef, useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Play, Film, X, Volume2, VolumeX, Clock, Tag } from "lucide-react"
-import React from "react"
+import { Play, Film, X, Volume2, VolumeX, Clock, Tag, Maximize } from "lucide-react"
+import  React from "react"
+
 function VideoShowcase() {
   const [activeVideo, setActiveVideo] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const videoRefs = useRef({})
   const sectionRef = useRef(null)
   const [inView, setInView] = useState(false)
@@ -36,7 +38,7 @@ function VideoShowcase() {
       category: "Music Video",
       description:
         "A remastered classic bringing new life to timeless emotions through visual storytelling. This project focuses on authentic human moments captured with a documentary-style approach.",
-      src: "/videos/vd2.MP4",
+      src: "https://res.cloudinary.com/da63nggkh/video/upload/v1745088791/dfyqrzcayzjh0li5jjf2.mp4",
       thumbnail: "/videos/vd2.MP4",
       duration: "3:12",
       year: "2022",
@@ -51,7 +53,7 @@ function VideoShowcase() {
       category: "Experimental",
       description:
         "Abstract visual poetry exploring organic forms and fluid movements. This experimental piece pushes the boundaries of conventional editing to create a hypnotic visual experience.",
-      src: "/videos/vd3.mp4",
+      src: "https://res.cloudinary.com/da63nggkh/video/upload/v1745088852/ebh4nxqmlnpeluy96wlq.mp4",
       thumbnail: "/videos/vd3.mp4",
       duration: "1:58",
       year: "2023",
@@ -103,18 +105,25 @@ function VideoShowcase() {
   const handleVideoClick = (index) => {
     setActiveVideo(index)
     setIsPlaying(true)
+    // Start with non-fullscreen mode
+    setIsFullscreen(false)
   }
 
   const handleVideoEnd = () => {
     setIsPlaying(false)
   }
 
-  const handleCloseVideo = () => {
+  const handleCloseVideo = (e) => {
+    // Stop propagation to prevent the click from reaching elements underneath
+    e.stopPropagation()
     setActiveVideo(null)
     setIsPlaying(false)
+    setIsFullscreen(false)
   }
 
-  const toggleMute = () => {
+  const toggleMute = (e) => {
+    // Stop propagation to prevent the click from reaching elements underneath
+    e.stopPropagation()
     setIsMuted(!isMuted)
 
     // Apply mute state to all videos
@@ -123,6 +132,26 @@ function VideoShowcase() {
         ref.muted = !isMuted
       }
     })
+  }
+
+  const toggleFullscreen = (e) => {
+    e.stopPropagation()
+    setIsFullscreen(!isFullscreen)
+  }
+
+  // Handle click outside video to close it
+  const handleModalBackdropClick = (e) => {
+    // Only close if clicking directly on the backdrop, not on the video
+    if (e.target === e.currentTarget) {
+      setActiveVideo(null)
+      setIsPlaying(false)
+      setIsFullscreen(false)
+    }
+  }
+
+  // Prevent video click from propagating to modal backdrop
+  const handleVideoContainerClick = (e) => {
+    e.stopPropagation()
   }
 
   return (
@@ -363,13 +392,15 @@ function VideoShowcase() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            onClick={handleModalBackdropClick}
           >
             <motion.div
-              className="relative w-full max-w-6xl aspect-video"
+              className={`relative ${isFullscreen ? "w-full max-w-[90vw] h-[80vh]" : "w-full max-w-[600px] aspect-video"}`}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.3 }}
+              onClick={handleVideoContainerClick}
             >
               <video
                 ref={(el) => el && (videoRefs.current.fullscreen = el)}
@@ -381,21 +412,44 @@ function VideoShowcase() {
                 onEnded={handleVideoEnd}
               ></video>
 
-              {/* Close button */}
-              <button
-                className="absolute top-4 right-4 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-colors border border-white/10"
-                onClick={handleCloseVideo}
-              >
-                <X className="h-6 w-6" />
-              </button>
+              {/* Control buttons with improved visibility and positioning */}
+              <div className="absolute top-4 right-4 flex space-x-3 z-50">
+                {/* Fullscreen toggle button */}
+                <button
+                  className="w-12 h-12 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/90 transition-colors border border-white/20 shadow-lg"
+                  onClick={toggleFullscreen}
+                >
+                  <Maximize className="h-6 w-6" />
+                </button>
 
-              {/* Mute button */}
-              <button
-                className="absolute top-4 right-20 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-colors border border-white/10"
-                onClick={toggleMute}
+                {/* Mute button */}
+                <button
+                  className="w-12 h-12 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/90 transition-colors border border-white/20 shadow-lg"
+                  onClick={toggleMute}
+                >
+                  {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
+                </button>
+
+                {/* Close button */}
+                <button
+                  className="w-12 h-12 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/90 transition-colors border border-white/20 shadow-lg"
+                  onClick={handleCloseVideo}
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Overlay instructions - visible briefly */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: 0 }}
+                transition={{ delay: 1.5, duration: 1 }}
               >
-                {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
-              </button>
+                <div className="bg-black/50 backdrop-blur-sm px-6 py-3 rounded-full text-white text-sm">
+                  Click outside video or X button to close
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
@@ -408,4 +462,3 @@ function VideoShowcase() {
 }
 
 export default VideoShowcase
-
