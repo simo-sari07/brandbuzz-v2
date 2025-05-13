@@ -13,6 +13,7 @@ import TestimonialsSection from "./components/TestimonialsSection";
 import CtaSection from "./components/CtaSection";
 import Footer from "./components/Footer";
 import Whatsapp from "./components/Whatsapp";
+import PhotoPortfolio from './components/PhotoPortfolio'
 import React from "react";
 import VideoShowcase from "./components/VideoShowcase";
 import Faq from "./components/Faq";
@@ -32,6 +33,7 @@ function App() {
         <ServicesSEO />
         <NosProjects />
         <CreativeShowcase />
+        <PhotoPortfolio/>
         <VideoShowcase />
         <Faq />
         <TestimonialsSection />
