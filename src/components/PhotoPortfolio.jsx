@@ -11,33 +11,14 @@ const PhotoPortfolio = () => {
 
   // Photo collection with paths that will work with Vite
   const photos = [
-    { id: 1, path: "/photo/image0.jpg", title: "Breakfast Dish" },
+    { id: 1, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171696/image0_fv47ep.jpg", title: "Breakfast Dish" },
     { id: 2, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747163892/1_o85zth.jpg", title: "Dessert Presentation" },
     { id: 3, path: 'https://res.cloudinary.com/da63nggkh/image/upload/v1747163903/2_tbwfwd.jpg', title: "Appetizers" },
     { id: 4, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747163853/4_bqjhxz.jpg", title: "Brunch Spread" },
-    { id: 5, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171696/image0_fv47ep.jpg", title: "Gourmet Plate" },
+    { id: 5, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171695/image4_pq31bu.jpg", title: "Gourmet Plate" },
     { id: 6, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171692/33_xw2cnc.jpg", title: "Poolside Cocktail" },
     { id: 7, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171694/image2_toth1h.jpg", title: "Red Cocktail" },
     { id: 8, path: "https://res.cloudinary.com/da63nggkh/image/upload/v1747171702/imgaeg3_fm6sad.jpg", title: "Coffee and Dessert" },
-    // { id: 9, path: "/photo/_MG_9788.JPG", title: "Pizza" },
-    // { id: 10, path: "/photo/1.jpeg", title: "Rustic Door" },
-    // { id: 11, path: "/photo/2.jpeg", title: "Swimming Pool" },
-    // { id: 12, path: "/photo/3.jpeg", title: "Architectural Detail" },
-    // { id: 13, path: "/photo/3P1A0055j.jpg", title: "Colorful Dish" },
-    // { id: 14, path: "/photo/3P1A0060k.jpg", title: "Circular Tart" },
-    // { id: 15, path: "/photo/3P1A1964k.jpg", title: "Gourmet Pasta" },
-    // { id: 16, path: "/photo/3P1A1975k.jpg", title: "Appetizer Platter" },
-    // { id: 17, path: "/photo/3P1A2020j.jpg", title: "Food Presentation" },
-    // { id: 18, path: "/photo/3P1A9050v.jpg", title: "Pasta Bowl" },
-    // { id: 19, path: "/photo/3P1A9078k.jpg", title: "Restaurant Interior" },
-    // { id: 20, path: "/photo/3P1A9316K.jpg", title: "Bar Interior" },
-    // { id: 21, path: "/photo/3P1A9332H.jpg", title: "Elegant Branding" },
-    // { id: 22, path: "/photo/3P1A9389F.jpg", title: "Interior Design" },
-    // { id: 23, path: "/photo/3P1A9609K.jpg", title: "Food Preparation" },
-    // { id: 24, path: "/photo/3P1A9667j.jpg", title: "Architectural View" },
-    // { id: 25, path: "/photo/3P1A9694K.jpg", title: "Food Service" },
-    // { id: 26, path: "/photo/4.jpeg", title: "Building Exterior" },
-    // { id: 27, path: "/photo/5.jpeg", title: "Architectural Passage" },
   ]
 
   const openModal = (image, index) => {
